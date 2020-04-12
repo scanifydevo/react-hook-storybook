@@ -1,0 +1,10 @@
+@import '../variables';
+
+.checkButton {
+  width: 0px;
+  height: 0px;
+  display: flex;
+  background: $gray-200;
+  transition: all 300ms;
+  cursor: pointer;
+}
