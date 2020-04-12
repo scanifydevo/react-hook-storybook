@@ -1,4 +1,4 @@
-import React, { FC, forwardRef, useRef, useState, useCallback } from 'react';
+import React, { FC, forwardRef, useState, useCallback, Ref } from 'react';
 import classNames from 'classnames';
 
 import styles from './SelectBox.module.scss';
@@ -48,11 +48,20 @@ interface Props {
    * Current value of select
    */
   multiple?: boolean;
+
+  /**
+   * Default value of select input, does not make the input controlled
+   */
+  defaultValue?: string | Array<string>;
+
+  /**
+   * React ref passtrough to input node
+   */
+  ref?: Ref<HTMLSelectElement>;
 }
 
-const SelectBox: FC<Props> = forwardRef((props) => {
+const SelectBox: FC<Props> = forwardRef((props, ref) => {
   const { fillWidth, className, error, placeholder, multiple, onChange, ...otherProps } = props;
-  const selectReference = useRef(null);
   const [values, setValues] = useState<string[]>([]);
   const onSelect = useCallback(
     (event) => {
@@ -71,18 +80,18 @@ const SelectBox: FC<Props> = forwardRef((props) => {
         const selectedValues = values.join(',');
         return (
           selectedValues
-            ? <option value='' selected disabled>{selectedValues}</option>
-            : <option value='' selected disabled>{placeholder}</option>
+            ? <option value='' disabled>{selectedValues}</option>
+            : <option value='' disabled>{placeholder}</option>
         );
       }
-      return <option value='' selected disabled>{placeholder}</option>;
+      return <option value='' disabled>{placeholder}</option>;
     }
     return null;
   };
 
   return (
     <select
-      ref={selectReference}
+      ref={ref}
       multiple={multiple}
       className={
         classNames(

@@ -9,6 +9,7 @@ import Label from '../Label/Label';
 import Button from '../Button/Button';
 import Toggle from '../Toggle/Toggle';
 import CheckBox from '../CheckBox/CheckBox';
+import SelectBox from '../SelectBox/SelectBox';
 
 export default { title: 'Form' };
 
@@ -21,6 +22,9 @@ interface FormData {
   marketing2: boolean;
   weeklytips: boolean;
   newfeatures: boolean;
+  isAdult: boolean;
+  single: string;
+  multiple: Array<string>;
 }
 
 interface Props {
@@ -76,9 +80,24 @@ const Form: FC<Props> = ({ onSubmit }) => {
           ref={register({})}
         />
         <CheckBox
-          name='age'
+          name='isAdult'
           label='I am elder than 16'
           defaultValue
+          ref={register({})}
+        />
+        <SelectBox
+          name='single'
+          placeholder='Please select at least one option'
+          defaultValue=''
+          ref={register({ required: true })}
+          error={errors.single}
+        />
+        <SelectBox
+          name='multiple'
+          placeholder='Choose your multiple options'
+          defaultValue={[]}
+          ref={register}
+          multiple
         />
         <Button size='big' type='submit'>Submit</Button>
       </TwoColumnGrid>
